@@ -126,11 +126,11 @@ Note: Simplest app component.
 @Output() clicked = new EventEmitter<void>();
 ```
 
-Note: Great place for a live example: counter button emitting events to a parent.
+Note: This is the old way! This requires you to use things like ngOnChanges and all that.
 
 ----
 
-# Signal based Inputs & Outputs
+## Signal based Inputs & Outputs
 
 - input() & output()
 - Used for communication between parent/child
@@ -141,7 +141,24 @@ title = input<string>(); // ReadOnlySignal<>
 clicked = output(); // has a `.emit()` like EventEmitters did.
 ```
 
-Note: Great place for a live example: counter button emitting events to a parent.
+Note: You can use the title() signal to create a more declarative approach within your component.
+
+---
+
+## Injectables
+
+```ts
+@Component({
+  selector: 'app-component'
+})
+export class AppComponent {
+  appService = inject(AppService); 
+  // New way, much cleaner!
+
+  constructor(private oldway: AppService) {}
+  // Old way of doing injection, still works! :)
+}
+```
 
 ---
 
