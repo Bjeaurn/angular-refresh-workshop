@@ -4,39 +4,66 @@ title: "Modern Angular Refresh"
 
 ## Modern Angular Refresh
 
-Note: For folks who've used Angular before, or fullstackers who haven’t touched it in a while. Goal: Get everyone productive and up to date with modern Angular practices.
+Note: For folks who've used Angular before, or fullstackers who haven’t touched it in a while. Goal: Get everyone productive and up to date with modern Angular practices. Maybe go around the group, current experience levels? Expectations?
+
+---
+
+
+<div style="">
+  <img src="./assets/bjorn.jpg" width="100" style="border-radius:100%; display: inline-flex;">
+  <h1 style="font-size: 0.9em;">Bjorn Schijff</h1>
+  <small style="display: inline-flex;">Sr. Frontend Engineer / Architect</small>
+  <div>
+    <img src="./assets/codestar.svg" height="30" style="border: 0; background-color: transparent;">
+  </div>
+  <small>@Bjeaurn</small>
+  <br />
+  <small>bjorn.schijff@soprasteria.com</small>
+</div>
+
+Note: Introduction, emphasize 9+ years of Angular, AngularJS before that. Love RxJS, reactivity and mainly: Angular. 
 
 ---
 
 ## Angular Today
 
-- Current Angular version: 20.1.4<!-- .element: class="fragment" -->
+[Current Angular version: 20.1.6](https://github.com/angular/angular/releases)<!-- .element: class="fragment" -->
+
 - Standalone APIs<!-- .element: class="fragment" -->
-- Signals stable<!-- .element: class="fragment" -->
-- Release cadence: major every 6 months, LTS policy<!-- .element: class="fragment" -->
+- Updated control-flow<!-- .element: class="fragment" -->
+- Signals stable + new APIs<!-- .element: class="fragment" -->
+- Release cadence: Major every 6 months<!-- .element: class="fragment" -->
+- LTS for 12 months<!-- .element: class="fragment" -->
   
 <small class="fragment">
 <a href="https://angular.dev/reference/releases#actively-supported-versions" target="_blank">Angular.dev reference</a>
 </small>
 
-Note: High-level overview, good to give people orientation on what's changed since they last looked.
+Note: High-level overview, good to give people orientation on what's changed since they last looked. Standalone: no more modules. New injectors/input/output etc.
 
 ---
 
 ## Angular CLI
 
 - `ng new`
-- Built-in testing, linting, formatting
+- Built-in testing, viable minimal app.<!-- .element: class="fragment" -->
 
 ```bash
 ng new angular-refresh
+#  answer some questions
 cd angular-refresh
 ng serve
 ```
+<!-- .element: class="fragment" -->
 
-Note: Best practices, standalone by default, configurations for all out of the box.
+<small class="fragment">Feel free to follow along!</small>
+<!-- .element: class="fragment" -->
+
+Note: Best practices, standalone by default, configurations for all out of the box. Follow along! Who's used the Angular CLI?
 
 ----
+
+## CLI usage
 
 <ul>
   <li class="fragment">
@@ -48,7 +75,27 @@ Note: Best practices, standalone by default, configurations for all out of the b
   <li class="fragment">
     <pre>ng g s core/services/auth</pre>
   </li>
+
+  <li class="fragment">
+    <pre>ng [serve|test|lint|build]</pre>
+  </li>
 </ul>
+
+----
+
+## Additions
+
+```bash
+# community managed, adds eslint with angular support
+ng add angular-eslint 
+
+# For automated formatting, 
+# recommend to also install Prettier.
+
+ng e2e # asks which E2E package to install
+```
+
+Note: Expecting a project to grow? Working with a bit of a team? Enterprise grade requirements? Add some good practices with ng-add. Prettier requires a bit of configuration to play nice with ESLint.
 
 ---
 
@@ -58,18 +105,19 @@ Note: Best practices, standalone by default, configurations for all out of the b
 src/
   app/
     features/
-      task-list/
+      tasks/
         task-list.component.ts
         task-item.component.ts
         task-form.component.ts
-      task.service.ts
+        tasks.service.ts // Only required for this feature? Else move to core/shared!
     app.component.ts
     app.routes.ts
+    app.module.ts
     main.ts
 ```
 <!-- .element: class="fragment" -->
 
-Note: Diagram: Component Tree, Services, Routing, Modules (optional)
+Note: Diagram: Component Tree, Services, Routing, Modules (optional). Service could live on a different (shared) level if needed.
 
 ----
 
@@ -77,17 +125,17 @@ Note: Diagram: Component Tree, Services, Routing, Modules (optional)
 src/
   app/
     features/
-      task-list/
+      tasks/
         task-list.ts // component
         task-item.ts // component 
         task-form.ts // component 
-      tasks.ts // service / repository / business logic
+        tasks.ts // service / repository / business logic <-- Only this feature?
     app.ts // component
     app.routes.ts
     main.ts
 ```
 
-Note: Modern new defaults, no more component/service in the name. Discuss?
+Note: Modern new defaults, no more component/service in the name. Discuss? You can change the settings in `angular.json`.
 
 ----
 
@@ -102,6 +150,26 @@ Note: Go through each, from the smallest part into the more "smart" elements.
 
 ----
 
+![Diagram](./assets/angular-component-diagram.png)
+
+----
+
+## Atomic design
+
+<small><blockquote>
+Atomic design is a methodology composed of five distinct stages working together to create interface design systems in a more deliberate and hierarchical manner.
+</blockquote></small>
+
+- Atoms<!-- .element: class="fragment" -->
+- Molecules<!-- .element: class="fragment" -->
+- Organisms<!-- .element: class="fragment" -->
+- Templates<!-- .element: class="fragment" -->
+- Pages<!-- .element: class="fragment" -->
+
+<small class="fragment"><a href="https://atomicdesign.bradfrost.com/chapter-2/" target="_blank">via Atomicdesign.bradfrost.com</small>
+
+----
+
 ```ts
 @Component({
   selector: 'my-app',
@@ -112,9 +180,33 @@ export class AppComponent {
 }
 ```
 
-Note: Simplest app component.
+Note: Simplest app component. Could be an atom?
 
 ----
+
+```ts
+@Component({
+  selector: 'my-button',
+  template: `<button (click)="buttonClicked()">{{ title }}</button>`
+})
+export class AppComponent {
+  title = 'Click me!';
+
+  buttonClicked() {
+    // Do something!
+  }
+}
+```
+
+Note: Possible Atom component, easy to reuse and has a very small single responsibility in providing a clickable element to be used in larger molecules or organisms.
+
+----
+
+![Atomic Design by Bradfrost](./assets/atomicdesign-bradfrost.png)
+
+Note: By Bradfrost, atomic design visualised.
+
+---
 
 ## Old Inputs & Outputs
 
@@ -126,7 +218,7 @@ Note: Simplest app component.
 @Output() clicked = new EventEmitter<void>();
 ```
 
-Note: This is the old way! This requires you to use things like ngOnChanges and all that.
+Note: Making atoms or molecules usable requires you to be able to customize them for different purposes. This is the old way! This requires you to use things like ngOnChanges and all that.
 
 ----
 
@@ -137,11 +229,32 @@ Note: This is the old way! This requires you to use things like ngOnChanges and 
 - Signal based changes
 
 ```ts
-title = input<string>(); // ReadOnlySignal<>
+title = input('title'); // ReadOnlySignal<string>, type is inferred from default. Override with <T>
 clicked = output(); // has a `.emit()` like EventEmitters did.
 ```
 
 Note: You can use the title() signal to create a more declarative approach within your component.
+
+----
+
+
+```ts
+@Component({
+  selector: 'my-button',
+  template: `<button (click)="buttonClicked.emit()" [class]="class()">{{ title() }}</button>`
+})
+export class AppComponent {
+  title = input('Click me!');
+  color = input('primary');
+
+  class = computed(() => this.color()) 
+  // We'll get to this one in the Reactivity training.
+
+  buttonClicked = output();
+}
+```
+
+Note: Small, modern atom of a Button. Perfect start for your /share/ui/button.
 
 ---
 
@@ -152,13 +265,16 @@ Note: You can use the title() signal to create a more declarative approach withi
   selector: 'app-component'
 })
 export class AppComponent {
-  appService = inject(AppService); 
-  // New way, much cleaner!
-
+  
   constructor(private oldway: AppService) {}
   // Old way of doing injection, still works! :)
+
+  appService = inject(AppService); 
+  // New way, much cleaner!
 }
 ```
+
+Note: Much more clean, when it comes to large smart components dealing with lots of interactions. Large constructor is not nice. However, it could also point to a component that is doing too much.
 
 ---
 
@@ -188,6 +304,30 @@ effect(() => console.log('Count changed:', count()));
 
 Note: Think of Signals as Angular’s new way of handling state. It’s local, reactive, and avoids the complexity of Observables.
 
+----
+
+## Gotcha - Functions in Templates
+
+```ts
+@Component({
+  selector: 'my-button',
+  template: `<button (click)="buttonClicked.emit()" [class]="class()">{{ title() }} {{ test() }}</button>`
+})
+export class Component {
+  title = input('title');
+
+  function test() {
+    console.count('detecting')
+    return Math.random();
+  }
+
+}
+```
+
+click, class, title and test.
+
+Note: Signals need to be "evaluated" as a function. Angular knows this is a Signal and therefore can subscribe to changes, making change detection very granular. However, doing manual functions in your HTML is still very bad. There is unfortunately no way of recognizing which is which.
+
 ---
 
 ## Hands-on: Build a Signal Counter
@@ -213,23 +353,11 @@ Note: Super clean. No RxJS. Ask: Who prefers this over BehaviorSubject?
 
 ---
 
-## Signals vs Observables
-<!-- TODO: make comparison table -->
-Feature	Signals	RxJS Observables
-Pull-based	✅	❌ (push-based)
-Async support	❌	✅
-Built-in to Angular	✅	✅
-Great for...	Local UI state	Async streams, effects
-
-Note: Signals aren't replacing RxJS, but great for local state and reactivity.
-
----
-
 ## State Management in Angular
 
 - Still many options: RxJS, NGXS, Akita, NgRx
 - For many apps, Signals + Services are enough
-- RxJS still great for async tasks
+- RxJS still great for async and event-based data
 
 Note: Show a basic state service pattern with a Signal store
 
@@ -254,12 +382,77 @@ Note: Great bridge to modern state patterns.
 
 ---
 
+## Control-flow
+
+```ts
+*ngFor
+*ngIf
+[ngSwitch] & *ngSwitchCase
+```
+
+<small class="fragment">
+  <pre>ng generate @angular/core:control-flow</pre>
+</small>
+
+Note: Ring a bell for any? Deprecated. Migrate using command above.
+
+----
+
+## New control-flow
+
+```html
+@let
+@for () {}
+@if () {}
+```
+
+----
+
+```html
+@let data = data$ | async
+@if (data.length > 0) {
+  <div><h1>Title</h1>
+  <ul>
+    @for (item of data; track item.id) {
+      @switch(item.type) {
+        @case ('thing') {
+          <li class="thing">{{ item.name }}</li>
+        }
+        @default {
+          <li>{{item.name}}</li>
+        }
+      }
+    }
+  </ul>
+}
+```
+<small class="fragment"><a href="https://angular.dev/guide/templates/control-flow" target="_blank">Guide templates control-flow</a></small>
+
+Note: Extensive example of how to use the new control flow. Link to control-flow guide.
+
+----
+
+## More control flow
+
+- @defer, @placeholder, @loading
+- @error
+- on: idle, viewport, interaction, hover, etc.
+
+<small class="fragment"><a href="https://angular.dev/guide/templates/defer" target="_blank">defer guide</a></small>
+
+Note: Additional control flow options for better code-splitting, faster loads and less JS shipped. Only showing (or downloading components!) when hovered, or interacted with.
+
+---
+
 # Summary
 ## What’s New & What Matters
 
-✅ CLI for best practices
-✅ Standalone components
-✅ Signals = reactive state
-✅ Angular is leaner, faster, more approachable
+- ✅ CLI for best practices<!-- .element: class="fragment" -->
+- ✅ Standalone components<!-- .element: class="fragment" -->
+- ✅ Signals = reactive state<!-- .element: class="fragment" -->
+- ✅ New control-flow directives<!-- .element: class="fragment" -->
+- ✅ Angular is leaner, faster, more approachable<!-- .element: class="fragment" -->
 
 ---
+
+# Thanks!
