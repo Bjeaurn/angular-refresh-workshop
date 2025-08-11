@@ -45,7 +45,12 @@ Note: High-level overview, good to give people orientation on what's changed sin
 
 ## Angular CLI
 
-- `ng new`
+<small class="fragment">Feel free to follow along!</small>
+
+`npm install -g @angular/cli@latest`
+<!-- .element: class="fragment" -->
+
+- `ng new`<!-- .element: class="fragment" -->
 - Built-in testing, viable minimal app.<!-- .element: class="fragment" -->
 
 ```bash
@@ -56,8 +61,6 @@ ng serve
 ```
 <!-- .element: class="fragment" -->
 
-<small class="fragment">Feel free to follow along!</small>
-<!-- .element: class="fragment" -->
 
 Note: Best practices, standalone by default, configurations for all out of the box. Follow along! Who's used the Angular CLI?
 
@@ -77,7 +80,7 @@ Note: Best practices, standalone by default, configurations for all out of the b
   </li>
 
   <li class="fragment">
-    <pre>ng [serve|test|lint|build]</pre>
+    <pre>ng [serve|test|lint|build|e2e]</pre>
   </li>
 </ul>
 
@@ -154,19 +157,9 @@ Note: Go through each, from the smallest part into the more "smart" elements.
 
 ----
 
-## Atomic design
+![Atomic Design by Bradfrost](./assets/atomicdesign-bradfrost.png)
 
-<small><blockquote>
-Atomic design is a methodology composed of five distinct stages working together to create interface design systems in a more deliberate and hierarchical manner.
-</blockquote></small>
-
-- Atoms<!-- .element: class="fragment" -->
-- Molecules<!-- .element: class="fragment" -->
-- Organisms<!-- .element: class="fragment" -->
-- Templates<!-- .element: class="fragment" -->
-- Pages<!-- .element: class="fragment" -->
-
-<small class="fragment"><a href="https://atomicdesign.bradfrost.com/chapter-2/" target="_blank">via Atomicdesign.bradfrost.com</small>
+Note: By Bradfrost, atomic design visualised.
 
 ----
 
@@ -202,12 +195,6 @@ Note: Possible Atom component, easy to reuse and has a very small single respons
 
 ----
 
-![Atomic Design by Bradfrost](./assets/atomicdesign-bradfrost.png)
-
-Note: By Bradfrost, atomic design visualised.
-
----
-
 ## Old Inputs & Outputs
 
 - @Input() and @Output() still alive and well
@@ -241,7 +228,11 @@ Note: You can use the title() signal to create a more declarative approach withi
 ```ts
 @Component({
   selector: 'my-button',
-  template: `<button (click)="buttonClicked.emit()" [class]="class()">{{ title() }}</button>`
+  template: `<button 
+    (click)="buttonClicked.emit()" 
+    [class]="class()">
+      {{ title() }}
+  </button>`
 })
 export class AppComponent {
   title = input('Click me!');
@@ -311,7 +302,11 @@ Note: Think of Signals as Angular’s new way of handling state. It’s local, r
 ```ts
 @Component({
   selector: 'my-button',
-  template: `<button (click)="buttonClicked.emit()" [class]="class()">{{ title() }} {{ test() }}</button>`
+  template: `<button 
+    (click)="buttonClicked.emit()" 
+    [class]="class()">
+      {{ title() }} {{ test() }}
+  </button>`
 })
 export class Component {
   title = input('title');
@@ -329,11 +324,6 @@ click, class, title and test.
 Note: Signals need to be "evaluated" as a function. Angular knows this is a Signal and therefore can subscribe to changes, making change detection very granular. However, doing manual functions in your HTML is still very bad. There is unfortunately no way of recognizing which is which.
 
 ---
-
-## Hands-on: Build a Signal Counter
-<!-- TODO: Create component with signal-based counter -->
-
-----
 
 ```ts
 @Component({
@@ -364,7 +354,6 @@ Note: Show a basic state service pattern with a Signal store
 ----
 
 ### Optional: Build a Tiny Signal-based Store
-<!-- TODO: Create a simple service using signals for shared state -->
 
 ```ts
 @Injectable({ providedIn: 'root' })
@@ -378,7 +367,7 @@ export class TodoStore {
 }
 ```
 
-Note: Great bridge to modern state patterns.
+Note: Great bridge to modern state patterns. Go over this example and discuss.
 
 ---
 
@@ -391,6 +380,7 @@ Note: Great bridge to modern state patterns.
 ```
 
 <small class="fragment">
+Migrate: 
   <pre>ng generate @angular/core:control-flow</pre>
 </small>
 
@@ -444,6 +434,24 @@ Note: Additional control flow options for better code-splitting, faster loads an
 
 ---
 
+## Angular's packages refresher
+the included batteries
+
+<small>
+
+- @angular/router<!-- .element: class="fragment" -->
+- @angular/forms (incl. ReactiveForms, SignalForms soon)<!-- .element: class="fragment" -->
+- @angular/common (directives, pipes and HttpClient)<!-- .element: class="fragment" -->
+- @angular/core/rxjs-interop<!-- .element: class="fragment" -->
+
+</small>
+
+<small class="fragment"><a href="https://angular.dev/overview/" target="_blank">angular.dev guides</a></small>
+
+Note: All these have excellent guides on angular.dev, https://angular.dev/ecosystem/rxjs-interop
+
+---
+
 # Summary
 ## What’s New & What Matters
 
@@ -451,7 +459,7 @@ Note: Additional control flow options for better code-splitting, faster loads an
 - ✅ Standalone components<!-- .element: class="fragment" -->
 - ✅ Signals = reactive state<!-- .element: class="fragment" -->
 - ✅ New control-flow directives<!-- .element: class="fragment" -->
-- ✅ Angular is leaner, faster, more approachable<!-- .element: class="fragment" -->
+- ✅ Angular comes batteries included<!-- .element: class="fragment" -->
 
 ---
 
