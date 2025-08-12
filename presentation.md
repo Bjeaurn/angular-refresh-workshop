@@ -10,7 +10,7 @@ Note: For folks who've used Angular before, or fullstackers who haven’t touche
 
 
 <div style="">
-  <img src="./assets/bjorn.jpg" width="100" style="border-radius:100%; display: inline-flex;">
+  <img src="./assets/bjorn-talk.webp" width="100" style="border-radius:100%; display: inline-flex;">
   <h1 style="font-size: 0.9em;">Bjorn Schijff</h1>
   <small style="display: inline-flex;">Sr. Frontend Engineer / Architect</small>
   <div>
@@ -27,7 +27,7 @@ Note: Introduction, emphasize 9+ years of Angular, AngularJS before that. Love R
 
 ## Angular Today
 
-[Current Angular version: 20.1.6](https://github.com/angular/angular/releases)<!-- .element: class="fragment" -->
+[Current Angular version: 20.1.6](https://github.com/angular/angular/tags)<!-- .element: class="fragment" -->
 
 - Standalone APIs<!-- .element: class="fragment" -->
 - Updated control-flow<!-- .element: class="fragment" -->
@@ -138,16 +138,16 @@ src/
     main.ts
 ```
 
-Note: Modern new defaults, no more component/service in the name. Discuss? You can change the settings in `angular.json`.
+Note: Modern new defaults, no more component/service in the name. Discuss? You can change the settings in `angular.json`. https://blog.angular.dev/announcing-angular-v20-b5c9c06cf301 - style guide updates.
 
 ----
 
 ### Angular Architecture Refresher
 
-- Components = UI logic & template
-- Smart components = "Wiring"
-- Services = business logic & data
-- Routing
+- Components: UI logic & template<!-- .element: class="fragment" -->
+- Smart components: "Wiring"<!-- .element: class="fragment" -->
+- Services: Business logic & Data<!-- .element: class="fragment" -->
+- Routing<!-- .element: class="fragment" -->
 
 Note: Go through each, from the smallest part into the more "smart" elements.
 
@@ -159,7 +159,7 @@ Note: Go through each, from the smallest part into the more "smart" elements.
 
 ![Atomic Design by Bradfrost](./assets/atomicdesign-bradfrost.png)
 
-Note: By Bradfrost, atomic design visualised.
+Note: By Bradfrost, atomic design visualised. Speaks to the size and comparison of different types of components.
 
 ----
 
@@ -182,7 +182,7 @@ Note: Simplest app component. Could be an atom?
   selector: 'my-button',
   template: `<button (click)="buttonClicked()">{{ title }}</button>`
 })
-export class AppComponent {
+export class ButtonComponent {
   title = 'Click me!';
 
   buttonClicked() {
@@ -200,7 +200,7 @@ Note: Possible Atom component, easy to reuse and has a very small single respons
 - @Input() and @Output() still alive and well
 - Used for communication between parent/child
 
-```ts
+```js
 @Input() title: string = '';
 @Output() clicked = new EventEmitter<void>();
 ```
@@ -398,7 +398,7 @@ Note: Ring a bell for any? Deprecated. Migrate using command above.
 
 ----
 
-```html
+```js
 @let data = data$ | async
 @if (data.length > 0) {
   <div><h1>Title</h1>
@@ -448,7 +448,7 @@ the included batteries
 
 <small class="fragment"><a href="https://angular.dev/overview/" target="_blank">angular.dev guides</a></small>
 
-Note: All these have excellent guides on angular.dev, https://angular.dev/ecosystem/rxjs-interop
+Note: All these have excellent guides on angular.dev, https://angular.dev/ecosystem/rxjs-interop. Check the styleguide and adhere to its principles, so all Angular applications look alike and are easy to reason about.
 
 ---
 
@@ -464,3 +464,5 @@ Note: All these have excellent guides on angular.dev, https://angular.dev/ecosys
 ---
 
 # Thanks!
+
+![QR Code](./assets/repo.svg)
