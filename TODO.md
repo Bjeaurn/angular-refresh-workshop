@@ -1,2 +1,3 @@
-https://angular.dev/essentials
-Deze nog verwerken in de slides!
+- [ ] Note van slide 1 "refreshed?", misschien niet ok?
+- [ ] ng lint -> installeert eslint bij eerste run, angular-eslint uitbreiding op? Uitzoeken
+- [ ] ng updates en migraties ontbreken.
