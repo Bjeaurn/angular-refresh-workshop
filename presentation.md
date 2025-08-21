@@ -89,6 +89,8 @@ Note: Best practices, standalone by default, configurations for all out of the b
 ## Additions
 
 ```bash
+ng lint # installs eslint with Angular defaults.
+
 # community managed, adds eslint with angular support
 ng add angular-eslint 
 
@@ -99,6 +101,19 @@ ng e2e # asks which E2E package to install
 ```
 
 Note: Expecting a project to grow? Working with a bit of a team? Enterprise grade requirements? Add some good practices with ng-add. Prettier requires a bit of configuration to play nice with ESLint.
+
+---
+
+## Updating
+
+```bash
+ng update
+```
+
+[update.angular.dev](https://update.angular.dev)
+<!-- .element: class="fragment" -->
+
+Note: Will check for newer versions of schematic compatible packages. Suggests running specific commands to update packages. May run automatic migrations when present. 
 
 ---
 
